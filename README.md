@@ -54,6 +54,23 @@ Your finished project must include all of the following requirements (further in
 Be prepared to demonstrate your understanding of this week's concepts by answering questions on the following topics.
 
 1. Differences between using _sessions_ or _JSON Web Tokens_ for authentication.
+
+Sessions are tracked on the server whereas JSON web tokens are not. Sessions can be destroyed on logout whereas tokens have to expire before they no longer authenticate a user. Sessions work well between same origin webpages. Tokens are best for everything else.
+
 2. What does `bcryptjs` do to help us store passwords in a secure manner?
+
+bcrypt makes it difficult for hackers to succeed with rainbow tables. A rainbow table is created when an attacker gets a list of commonly used passwords and then starts with dictionary stuff (table can end up being millions of rows long) and then the attacker, using a popular hashing formula like MD5, pre-computes hashes for all of these things. Then inevitably some database gets stolen and this database has a users table full of hashes. The attacker checks the hashes against the rainbow table and if found it would be BAD! So that is how hashes can be attacked with rainbow tables. - bcrypt defeats against this by making sure that the creation of these rainbow tables is extremely slow, for example 2^8 rounds of hashing is an enormous #. That makes the creation of these rainbow tables really slow. If it takes a full second to build a single hash and the attacker has a rainbow table with a million records it will take a million seconds to build it. So bcrypt tries to make impractical the creation of these rainbow tables through configurable slowness. If something makes the creation faster in the future then no problem all we would have to do is UP THE ROUNDS of hashing. The power of math allows us to defeat within reason future hardware. - bcrypt also takes care that even 2 users with the same passwords result in different hashes. Because bcrypt combines the password with some random thing called "salt" before computing the hash. This also hurts attackers a great deal because if each hash is created with a different "salt" then rainbow tables are impossible. They would have to create 1 rainbow table PER individual salt so that's a million times a million!! All this information, the salt and the rounds of hashing, is stored inside the bcrypt hash itself. So the attacker can see the salt but still that destroys their ability to efficiently use rainbow tables because they would need an insane amount of rainbow tables.
+
 3. How are unit tests different from integration and end-to-end testing?
+
+Unit testing should focus on testing small units (typically a Class or a complex algorithm).
+Units should be tested in isolation and independent of other units. This is typically achieved by mocking the dependencies.
+Unit tests should be fast. Usually shouldn’t take more than a few seconds to provide feedback.
+
+Integration testing verifies whether or not the individual modules or services that make up your application work well together.
+
+End-to-end testing verifies that your software works correctly from the beginning to the end of a particular user flow. It replicates expected user behavior and various usage scenarios to ensure that your software works as whole. End-to-end testing uses a production equivalent environment and data to simulate real-world situations and may also involve the integrations your software has with external applications.
+
 4. How does _Test Driven Development_ change the way we write applications and tests?
+
+Test Driven Development is software development approach in which test cases are developed to specify and validate what the code will do. In simple terms, test cases for each functionality are created and tested first and if the test fails then the new code is written in order to pass the test making code simple and bug-free. Test-Driven Development starts with designing and developing tests for every small functionality of an application. TDD framework calls us to write new code only if an automated test has failed. This avoids duplication of code.
